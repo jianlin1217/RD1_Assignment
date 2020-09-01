@@ -1,5 +1,5 @@
 <?php
-    $dbname="buy_System";
+    $dbname="Weather";
     $dbuser="root";
     $dbpass="root";
     $dbport=8889;

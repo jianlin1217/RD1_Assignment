@@ -4,6 +4,7 @@ body
 }
 nav
 {
+    text-align: center;
     position: absolute;
     width:100%;  
     height:60px;
@@ -19,4 +20,8 @@ div.select
     position: relative;
     margin-left: 50px;
     margin-right: 50px;
+}
+div
+{
+    margin-top: 100px;
 }
