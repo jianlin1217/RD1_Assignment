@@ -3,14 +3,6 @@ require_once("connectDB.php");
 //授權碼
 $Authorization="CWB-CD094466-F0F5-46D5-B4CE-B55F5026618B";
 global $Authorization;
-//存放相對應城市資源代碼
-$countryCode = array(
-    '宜蘭縣' => 'F-D0047-001',
-    '桃園市' => 'F-D0047-005',
-    '新竹縣' => 'F-D0047-009',
-
-);
-
 //取得縣市
 function get_country()
 {
@@ -25,6 +17,38 @@ function get_country()
     return $w36h;
 }
 $obj_w36h = json_decode(get_country());
+//放縣市進入資料庫
+$i=0;
+while($obj_w36h->{"records"}->{"location"}[$i]->{"locationName"} != NULL)
+{
+    $nowC=$obj_w36h->{"records"}->{"location"}[$i]->{"locationName"};
+    $putflag=1;
+    //檢查有無重複
+    $picksameDB=<<<end
+    select countryName from country 
+    end;
+    $result=mysqli_query($link,$picksameDB);
+    while($row=mysqli_fetch_assoc($result))
+    {
+        if($nowC==$row['countryName'])
+        {
+            $putflag=0;
+        }
+    }
+    if($putflag)
+    {
+        $putcountryDB=<<<end
+        insert into country 
+        (countryName)
+        values
+        ("$nowC");
+        end;
+        // echo $putcountryDB;
+        mysqli_query($link,$putcountryDB);
+    } 
+    $i++;
+}
+
 
 
 
@@ -45,12 +69,13 @@ $obj_w36h = json_decode(get_country());
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-sm   fixed-top" style=" position: fixed; width:100%;  height:60px; background-color: rgb(230, 218, 150)">
-        <!-- Brand/logo -->
-        <p class="navbar-brand" style="text-align:center; margin-top:20px">小雞氣象局（｡･ө･｡）</p>
-    </nav>
-    <?php
-    ?>
+    <div class="Slider Track topview" >
+            <!-- <img src="Img/高雄市月世界.jpeg" alt="圖片錯誤ＱＡＯ"> -->
+        <h1 id="countryname"></h1>
+    </div>
+    <div class="topview">
+        <img id="countryImg" src="Img/" alt="">
+    </div>
     <div class="container" style="margin-top: 60px;">
         <div class="select wrapper">
             <form action="" method="post">
@@ -74,9 +99,12 @@ $obj_w36h = json_decode(get_country());
                 <select name="" id="city" style="background-color:royalblue; color:seashell">
                     <script>
                         $("#country").change(function() {
-                            alert($("#country").val());
+                            // alert($("#country").val());
+
+                            $("#countryname").text($("#country").val());
+                            $("#countryImg").attr("src","Img/"+$("#country").val()+".jpeg");
                             <?php
-                                
+
                             ?>
                         });
                     </script>

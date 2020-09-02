@@ -1,6 +1,6 @@
 body
 {
-    background-color: rgb(184, 219, 220);
+    background-color: rgba(117, 117, 164, 0.632);
 }
 nav
 {
@@ -14,6 +14,7 @@ h1
 {
     text-align: center;
     margin-top: 20px;
+    font-family: monospace;
 }
 div.wrapper
 {
@@ -25,7 +26,7 @@ div.select
     margin-left: 50px;
     margin-right: 50px;
 }
-div
+div.topview
 {
-    margin-top: 100px;
+    text-align: center;
 }
