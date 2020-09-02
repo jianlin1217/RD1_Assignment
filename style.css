@@ -1,6 +1,10 @@
 body
 {
-    background-color: rgba(117, 117, 164, 0.632);
+    background-image: url(Img/star3.png);
+    background-repeat: repeat;
+    background-size: cover;
+    width: 100vw;
+    height: 100vh;
 }
 nav
 {
@@ -20,38 +24,54 @@ h2
     margin-top: 20px;
     font-family: monospace;
 }
+h3
+{
+    text-align: center;
+}
 h4
+{
+    margin-top: 30px;
+    text-align: center;
+}
+label
 {
     text-align: center;
 }
 div.wrapper
 {
-    /* display: gird; */
+    /* display: grid; */
     display: none;
     grid-template-columns: repeat(2,3fr);
 
 }
+div.weather
+{
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+}
 div.wrappertwoday
 {
+    margin-top: 50px;
+    display: grid;
     border-radius: 10px;
     text-align: center;
-    display:grid;
     margin-left: 20px;
     margin-right: 20px;
     grid-template-columns: repeat(6,2fr);
     grid-column-gap: 50px;
-    height: 500px;
+    height: 700px;
 }
 div.wrapperweek
 {
+    margin-top: 50px;
+    display: grid;
     border-radius: 10px;
     text-align: center;
-    display:grid;
     margin-left: 20px;
     margin-right: 20px;
     grid-template-columns: repeat(7,3fr);
     grid-column-gap: 50px;
-    height: 500px;
+    height: 700px;
 }
 div.circle
 {
@@ -71,8 +91,10 @@ div.topview
 {
     text-align: center;
 }
-img
+img.country
 {
+    border-style: groove;
+    border-radius: 50px;
     /* margin-top: 20px;
     margin-left: 20px;
     margin-right: 20px;
@@ -80,4 +102,24 @@ img
     height: 480px;
     width: 800px;
     margin: 50px;
+}
+img.wx
+{
+    width: 220px;
+    height: 220px;
+}
+img.temp
+{
+    margin-left: 20px;
+    width: 100px;
+    height: 100px;
+}
+p
+{
+    color: rgb(187, 179, 216);
+    font-size: 20px;
+}
+p.precent
+{
+    font-size: 30px;
 }

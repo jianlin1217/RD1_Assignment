@@ -53,11 +53,25 @@ CWB-CD094466-F0F5-46D5-B4CE-B55F5026618B
 顯示縣市當前天氣狀況                        --/  
 顯示縣市未來2天、1週天氣預報                     －－> 使用  鄉鎮天氣預報-宜蘭縣未來2天 、 一週天氣預報
 
-台灣未來兩天，locationName放縣市名稱=>https://opendata.cwb.gov.tw/api/v1/rest/datastore/F-D0047-089?Authorization=CWB-CD094466-F0F5-46D5-B4CE-B55F5026618B&locationName=%E5%AE%9C%E8%98%AD%E7%B8%A3
+台灣未來兩天，locationName放縣市名稱=>https://opendata.cwb.gov.tw/api/v1/rest/datastore/F-D0047-089?Authorization=CWB-CD094466-F0F5-46D5-B4CE-B55F5026618B&elementName=WeatherDescription&locationName="當前縣市"
+
+使用元素
+晴。
+降雨機率 20%。
+溫度攝氏32度。
+易中暑。
+西南風 平均風速1-2級(每秒2公尺)。
+相對濕度72%
+
+
+
+台灣未來一週，=>https://opendata.cwb.gov.tw/api/v1/rest/datastore/F-D0047-091?Authorization=CWB-CD094466-F0F5-46D5-B4CE-B55F5026618B&locationName="當前縣市"&elementName=WeatherDescription
+
 顯示縣市各觀測站過去1小時、24小時累積雨量數據       －－> 使用    
 切換縣市時，顯示該縣市的特色圖片                －－>去觀光局找
 上述各式氣象資料，請一併儲存於資料庫
 介面排版與所需素材請自由發揮
+
 
 
 縣市資料和現在天氣狀況先抓出來
@@ -90,6 +104,10 @@ value對應天氣
 
 * MinT 最低溫度
 * CI 舒適度
+舒適度指數
+* RH 相對濕度
+
+
 * PoP 降雨機率 
 
 * Wind 未來兩天及兩週沒有

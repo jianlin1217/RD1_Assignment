@@ -16,7 +16,36 @@ function get_country()
 
     return $w36h;
 }
+//讀取兩天的天氣資料
+function get_twodayW($nowCountry)
+{
+    $weather = curl_init();
+    curl_setopt($weather, CURLOPT_URL, "https://opendata.cwb.gov.tw/api/v1/rest/datastore/F-D0047-089?Authorization=CWB-CD094466-F0F5-46D5-B4CE-B55F5026618B&elementName=WeatherDescription&locationName=$nowCountry");
+    curl_setopt($weather, CURLOPT_HEADER, false);
+    curl_setopt($weather, CURLOPT_RETURNTRANSFER, 1);
+
+    $twoD = curl_exec($weather);
+    curl_close($weather);
+
+    return $twoD;
+}
+//讀取一週的天氣資料
+function get_weekW($nowCountry)
+{
+    $weather = curl_init();
+    curl_setopt($weather, CURLOPT_URL, "https://opendata.cwb.gov.tw/api/v1/rest/datastore/F-D0047-091?Authorization=CWB-CD094466-F0F5-46D5-B4CE-B55F5026618B&locationName=$nowCountry&elementName=WeatherDescription");
+    curl_setopt($weather, CURLOPT_HEADER, false);
+    curl_setopt($weather, CURLOPT_RETURNTRANSFER, 1);
+
+    $week = curl_exec($weather);
+    curl_close($weather);
+
+    return $week;
+}
+
 $obj_w36h = json_decode(get_country());
+get_twodayW("彰化縣");
+get_weekW("彰化縣");
 //放縣市進入資料庫
 $i = 0;
 while ($obj_w36h->{"records"}->{"location"}[$i]->{"locationName"} != NULL) {
@@ -48,6 +77,7 @@ while ($obj_w36h->{"records"}->{"location"}[$i]->{"locationName"} != NULL) {
 
 
 
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -65,10 +95,9 @@ while ($obj_w36h->{"records"}->{"location"}[$i]->{"locationName"} != NULL) {
 </head>
 
 <body>
-    <div class="Slider Track topview">
-        <h1>天氣觀察局</h1>
-        <form action="" method="post">
-
+        <img class="bg" alt="">
+        <div class="Slider Track topview">
+            <h1>天氣觀察局</h1>
                 <!--選擇縣市-->
                 <label for="country">縣市</label>
                 <select name="" id="country" style="background-color:royalblue; color:seashell">
@@ -84,51 +113,96 @@ while ($obj_w36h->{"records"}->{"location"}[$i]->{"locationName"} != NULL) {
                     }
                     ?>
                 </select>
+                <label for="station">觀測站</label>
+                <select name="" id="station" style="background-color:royalblue; color:seashell">
+                    <option id="station0" value="none">請選擇觀測站</option>
+                </select>
                 <!-- <label for="city" style="margin-left: 50px ;">鄉鎮</label>
                 <select name="" id="city" style="background-color:royalblue; color:seashell">
-                    
+
                 </select> -->
                 <script>
                     $("#country").change(function() {
-                        // alert($("#country").val());
-                        // alert("");
                         <?php
-                            //查詢選擇縣市
+                        //查詢選擇縣市
                         ?>
-                        $("#countryname").text($("#country").val());
-                        $("#countryImg").attr("src", "Img/" + $("#country").val() + ".jpeg");
-                        $("#nowweather").css("display","grid");
+                        if($("#country").val()!="none")
+                        {
+                            $("#countryname").text($("#country").val());
+                            $("#countryImg").attr("src", "Img/" + $("#country").val() + ".jpeg");
+                            $("#nowweather").css("display", "grid");
+                            $("#twoday").css("display", "grid");
+                            $("#week").css("display", "grid");
+                        }
+                        else
+                        {
+                            $("#countryname").css("display", "none");
+                            $("#nowweather").css("display", "none");
+                            $("#twoday").css("display", "none");
+                            $("#week").css("display", "none");
+                        }
+                        
+                        
                     });
                 </script>
-            </form>
-        <!-- <img src="Img/高雄市月世界.jpeg" alt="圖片錯誤ＱＡＯ"> -->
-        <h2 id="countryname"></h2>
-    </div>
-    <div class="wrapper topview " id="nowweather" >
-        <img id="countryImg" src="Img/" alt="">
-        <div>
-            <h3>現在天氣</h3>
+            <h2 id="countryname"></h2>
         </div>
-    </div>
-    <h4>未來兩天天氣</h4>
-    <div class="wrappertwoday" style="margin-top: 60px;">
+        <div class="wrapper topview " id="nowweather">
+            <img class="country" id="countryImg" src="Img/" alt="">
+            <div>
+                <h3>現在天氣</h3>
+            </div>
+        </div>
+        <div id="twoday" style="display:grid">
+            <h4>未來兩天天氣</h4>
+            <div class="wrappertwoday">
+                <div class="sky circle">
+                    <p>天氣 晴</p>
+                    <img class="wx" src="Img/sunday.png" alt="">
+                    <p>舒適度  </p>
+                    <div class="weather">
+                        <img class="temp" src="Img/Htemp.png" alt="">
+                        <div>
+                            <p>溫度</p>
+                            <p class="precent">30ºC</p>
+                        </div>
+                    </div>
+                    <div class="weather">
+                        <img class="temp" src="Img/PoP.png" alt="">
+                        <div>
+                            <p>降雨機率</p>
+                            <p class="precent">50%</p>
+                        </div>
+                    </div>
+                    <div class="weather">
+                        <img class="temp" src="Img/wind3.png" alt="">
+                        <div>
+                            <p>西南風</p>
+                            <p>平均風速1-2級(每秒2公尺)</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="sky circle">
+                </div>
+                <div class="sky circle"></div>
+                <div class="sky circle"></div>
+                <div class="sky circle"></div>
+                <div class="sky circle"></div>
+            </div>
+        </div>
+        <div id="week" style="display:grid">
+             <h4>未來一週天氣</h4>
+            <div class="wrapperweek">
             <div class="sky circle"></div>
             <div class="sky circle"></div>
             <div class="sky circle"></div>
             <div class="sky circle"></div>
             <div class="sky circle"></div>
             <div class="sky circle"></div>
-    </div>
-    <h4>未來一週天氣</h4>
-    <div class="wrapperweek">
             <div class="sky circle"></div>
-            <div class="sky circle"></div>
-            <div class="sky circle"></div>
-            <div class="sky circle"></div>
-            <div class="sky circle"></div>
-            <div class="sky circle"></div>
-            <div class="sky circle"></div>
-    </div>
+        </div>
+        </div>
+
 </body>
 
 </html>
