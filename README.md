@@ -53,22 +53,27 @@ CWB-CD094466-F0F5-46D5-B4CE-B55F5026618B
 顯示縣市當前天氣狀況                        --/  
 顯示縣市未來2天、1週天氣預報                     －－> 使用  鄉鎮天氣預報-宜蘭縣未來2天 、 一週天氣預報
 
+
 台灣未來兩天，locationName放縣市名稱=>https://opendata.cwb.gov.tw/api/v1/rest/datastore/F-D0047-089?Authorization=CWB-CD094466-F0F5-46D5-B4CE-B55F5026618B&elementName=WeatherDescription&locationName="當前縣市"
 
+取每天的 12:00  15:00  18:00
 使用元素
-晴。
-降雨機率 20%。
-溫度攝氏32度。
-易中暑。
-西南風 平均風速1-2級(每秒2公尺)。
-相對濕度72%
+wx: 晴。
+pop: 降雨機率 20%。
+tem: 溫度攝氏32度。
+ci: 易中暑。
+wind: 西南風 平均風速1-2級(每秒2公尺)。
+rh 相對濕度72%
 
 
 
-台灣未來一週，=>https://opendata.cwb.gov.tw/api/v1/rest/datastore/F-D0047-091?Authorization=CWB-CD094466-F0F5-46D5-B4CE-B55F5026618B&locationName="當前縣市"&elementName=WeatherDescription
+台灣未來一週，=>https://opendata.cwb.gov.tw/api/v1/rest/datastore/F-D0047-091?Authorization=CWB-CD094466-F0F5-46D5-B4CE-B55F5026618B&locationName="當前縣市"
 
-顯示縣市各觀測站過去1小時、24小時累積雨量數據       －－> 使用    
+顯示縣市各觀測站過去1小時、24小時累積雨量數據       －－> 使用  
+過去24小時  
+https://opendata.cwb.gov.tw/api/v1/rest/datastore/O-A0002-001?Authorization=CWB-CD094466-F0F5-46D5-B4CE-B55F5026618B&elementName=HOUR_24&parameterName=CITY
 切換縣市時，顯示該縣市的特色圖片                －－>去觀光局找
+
 上述各式氣象資料，請一併儲存於資料庫
 介面排版與所需素材請自由發揮
 

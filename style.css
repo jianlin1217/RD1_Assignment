@@ -59,7 +59,7 @@ div.wrappertwoday
     margin-right: 20px;
     grid-template-columns: repeat(6,2fr);
     grid-column-gap: 50px;
-    height: 700px;
+    height: 800px;
 }
 div.wrapperweek
 {
@@ -122,4 +122,9 @@ p
 p.precent
 {
     font-size: 30px;
+}
+button
+{
+    background-color: rgb(195, 122, 210);
+    border-radius: 100px;
 }
