@@ -13,12 +13,53 @@ nav
 h1
 {
     text-align: center;
+}
+h2
+{
+    text-align: center;
     margin-top: 20px;
     font-family: monospace;
 }
+h4
+{
+    text-align: center;
+}
 div.wrapper
 {
+    /* display: gird; */
+    display: none;
     grid-template-columns: repeat(2,3fr);
+
+}
+div.wrappertwoday
+{
+    border-radius: 10px;
+    text-align: center;
+    display:grid;
+    margin-left: 20px;
+    margin-right: 20px;
+    grid-template-columns: repeat(6,2fr);
+    grid-column-gap: 50px;
+    height: 500px;
+}
+div.wrapperweek
+{
+    border-radius: 10px;
+    text-align: center;
+    display:grid;
+    margin-left: 20px;
+    margin-right: 20px;
+    grid-template-columns: repeat(7,3fr);
+    grid-column-gap: 50px;
+    height: 500px;
+}
+div.circle
+{
+    border-radius: 20px;
+}
+div.sky
+{
+    background-image: url(Img/sky.jpg);
 }
 div.select
 {
@@ -29,4 +70,14 @@ div.select
 div.topview
 {
     text-align: center;
+}
+img
+{
+    /* margin-top: 20px;
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-right: 20px; */
+    height: 480px;
+    width: 800px;
+    margin: 50px;
 }

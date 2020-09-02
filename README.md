@@ -1,6 +1,8 @@
 # RD1_Assignment
 CWB-CD094466-F0F5-46D5-B4CE-B55F5026618B
 
+天氣背景圖為Pixabay https://pixabay.com/zh/photos/sky-stars-constellations-astronomy-828648/ 下載
+
 預計
 資料庫
 １．存放縣市  鄉鎮
@@ -65,8 +67,29 @@ resource_id  資源碼
 
 
 
-* Wx 天氣現象
+* Wx 天氣現象  天氣狀況
+value對應天氣
+1  晴                sunday.png
+2  
+3
+4  多雲              cloudsday.png
+5
+6
+7  陰                cloudday.png
+8  短暫陣雨           rainday.png
+9
+10
+11
+12
+13
+14
+15  短暫陣雨或雷雨      thunderrainday.png
+
 * MaxT 最高溫度
+
+
 * MinT 最低溫度
 * CI 舒適度
 * PoP 降雨機率 
+
+* Wind 未來兩天及兩週沒有

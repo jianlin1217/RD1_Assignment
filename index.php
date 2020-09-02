@@ -1,7 +1,7 @@
 <?php
 require_once("connectDB.php");
 //授權碼
-$Authorization="CWB-CD094466-F0F5-46D5-B4CE-B55F5026618B";
+$Authorization = "CWB-CD094466-F0F5-46D5-B4CE-B55F5026618B";
 global $Authorization;
 //取得縣市
 function get_country()
@@ -18,34 +18,30 @@ function get_country()
 }
 $obj_w36h = json_decode(get_country());
 //放縣市進入資料庫
-$i=0;
-while($obj_w36h->{"records"}->{"location"}[$i]->{"locationName"} != NULL)
-{
-    $nowC=$obj_w36h->{"records"}->{"location"}[$i]->{"locationName"};
-    $putflag=1;
+$i = 0;
+while ($obj_w36h->{"records"}->{"location"}[$i]->{"locationName"} != NULL) {
+    $nowC = $obj_w36h->{"records"}->{"location"}[$i]->{"locationName"};
+    $putflag = 1;
     //檢查有無重複
-    $picksameDB=<<<end
+    $picksameDB = <<<end
     select countryName from country 
     end;
-    $result=mysqli_query($link,$picksameDB);
-    while($row=mysqli_fetch_assoc($result))
-    {
-        if($nowC==$row['countryName'])
-        {
-            $putflag=0;
+    $result = mysqli_query($link, $picksameDB);
+    while ($row = mysqli_fetch_assoc($result)) {
+        if ($nowC == $row['countryName']) {
+            $putflag = 0;
         }
     }
-    if($putflag)
-    {
-        $putcountryDB=<<<end
+    if ($putflag) {
+        $putcountryDB = <<<end
         insert into country 
         (countryName)
         values
         ("$nowC");
         end;
         // echo $putcountryDB;
-        mysqli_query($link,$putcountryDB);
-    } 
+        mysqli_query($link, $putcountryDB);
+    }
     $i++;
 }
 
@@ -69,16 +65,10 @@ while($obj_w36h->{"records"}->{"location"}[$i]->{"locationName"} != NULL)
 </head>
 
 <body>
-    <div class="Slider Track topview" >
-            <!-- <img src="Img/高雄市月世界.jpeg" alt="圖片錯誤ＱＡＯ"> -->
-        <h1 id="countryname"></h1>
-    </div>
-    <div class="topview">
-        <img id="countryImg" src="Img/" alt="">
-    </div>
-    <div class="container" style="margin-top: 60px;">
-        <div class="select wrapper">
-            <form action="" method="post">
+    <div class="Slider Track topview">
+        <h1>天氣觀察局</h1>
+        <form action="" method="post">
+
                 <!--選擇縣市-->
                 <label for="country">縣市</label>
                 <select name="" id="country" style="background-color:royalblue; color:seashell">
@@ -94,25 +84,50 @@ while($obj_w36h->{"records"}->{"location"}[$i]->{"locationName"} != NULL)
                     }
                     ?>
                 </select>
-                <label for="city" style="margin-left: 50px ;">鄉鎮</label>
-                <!--選擇鄉鎮-->
+                <!-- <label for="city" style="margin-left: 50px ;">鄉鎮</label>
                 <select name="" id="city" style="background-color:royalblue; color:seashell">
-                    <script>
-                        $("#country").change(function() {
-                            // alert($("#country").val());
-
-                            $("#countryname").text($("#country").val());
-                            $("#countryImg").attr("src","Img/"+$("#country").val()+".jpeg");
-                            <?php
-
-                            ?>
-                        });
-                    </script>
-                </select>
+                    
+                </select> -->
+                <script>
+                    $("#country").change(function() {
+                        // alert($("#country").val());
+                        // alert("");
+                        <?php
+                            //查詢選擇縣市
+                        ?>
+                        $("#countryname").text($("#country").val());
+                        $("#countryImg").attr("src", "Img/" + $("#country").val() + ".jpeg");
+                        $("#nowweather").css("display","grid");
+                    });
+                </script>
             </form>
+        <!-- <img src="Img/高雄市月世界.jpeg" alt="圖片錯誤ＱＡＯ"> -->
+        <h2 id="countryname"></h2>
+    </div>
+    <div class="wrapper topview " id="nowweather" >
+        <img id="countryImg" src="Img/" alt="">
+        <div>
+            <h3>現在天氣</h3>
         </div>
-
-
+    </div>
+    <h4>未來兩天天氣</h4>
+    <div class="wrappertwoday" style="margin-top: 60px;">
+            <div class="sky circle"></div>
+            <div class="sky circle"></div>
+            <div class="sky circle"></div>
+            <div class="sky circle"></div>
+            <div class="sky circle"></div>
+            <div class="sky circle"></div>
+    </div>
+    <h4>未來一週天氣</h4>
+    <div class="wrapperweek">
+            <div class="sky circle"></div>
+            <div class="sky circle"></div>
+            <div class="sky circle"></div>
+            <div class="sky circle"></div>
+            <div class="sky circle"></div>
+            <div class="sky circle"></div>
+            <div class="sky circle"></div>
     </div>
 </body>
 
