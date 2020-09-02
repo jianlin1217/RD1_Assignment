@@ -1,4 +1,8 @@
 # RD1_Assignment
+CWB-CD094466-F0F5-46D5-B4CE-B55F5026618B
+
+縣市特色圖片源自觀光局：https://www.taiwan.net.tw/
+氣象圖標圖片源自於Pngtree：https://zh.pngtree.com/so/%E5%A4%A9%E6%B0%A3%E7%B4%A0%E6%9D%90
 
 預計
 資料庫
