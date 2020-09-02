@@ -46,7 +46,7 @@ function get_weekW($nowCountry)
 function get_rain()
 {
     $weather = curl_init();
-    curl_setopt($weather, CURLOPT_URL, "https://opendata.cwb.gov.tw/api/v1/rest/datastore/C-B0025-001?Authorization=CWB-CD094466-F0F5-46D5-B4CE-B55F5026618B"); //
+    curl_setopt($weather, CURLOPT_URL, "https://opendata.cwb.gov.tw/api/v1/rest/datastore/O-A0002-001?Authorization=CWB-CD094466-F0F5-46D5-B4CE-B55F5026618B&elementName=HOUR_24,HOUR_3&parameterName=CITY"); //
     curl_setopt($weather, CURLOPT_HEADER, false);
     curl_setopt($weather, CURLOPT_RETURNTRANSFER, 1);
 
@@ -220,6 +220,9 @@ while ($obj_w36h->{"records"}->{"location"}[$i]->{"locationName"} != NULL) {
             <div class="sky circle"></div>
             <div class="sky circle"></div>
         </div>
+    </div>
+    <div id="rain" style="display: grid;">
+        <h4>每小時</h4>
     </div>
 
 </body>

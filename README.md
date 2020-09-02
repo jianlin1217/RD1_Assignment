@@ -71,7 +71,8 @@ rh 相對濕度72%
 
 顯示縣市各觀測站過去1小時、24小時累積雨量數據       －－> 使用  
 過去24小時  
-https://opendata.cwb.gov.tw/api/v1/rest/datastore/O-A0002-001?Authorization=CWB-CD094466-F0F5-46D5-B4CE-B55F5026618B&elementName=HOUR_24&parameterName=CITY
+https://opendata.cwb.gov.tw/api/v1/rest/datastore/O-A0002-001?Authorization=CWB-CD094466-F0F5-46D5-B4CE-B55F5026618B&elementName=HOUR_24,HOUR_3&parameterName=CITY
+
 切換縣市時，顯示該縣市的特色圖片                －－>去觀光局找
 
 上述各式氣象資料，請一併儲存於資料庫
