@@ -5,9 +5,10 @@ CWB-CD094466-F0F5-46D5-B4CE-B55F5026618B
 
 預計
 資料庫
-１．存放縣市  鄉鎮
-２．縣市
-
+１．存放縣市  
+２．觀測站＋雨量
+３．天氣圖片  天氣狀態
+４．
 # 0901 抓資料  使用curl
 取得３６Ｈ資料以及縣市
 
@@ -68,6 +69,14 @@ rh 相對濕度72%
 
 
 台灣未來一週，=>https://opendata.cwb.gov.tw/api/v1/rest/datastore/F-D0047-091?Authorization=CWB-CD094466-F0F5-46D5-B4CE-B55F5026618B&locationName="當前縣市"
+elementName=UVI,Wx,PoP12h,MaxT,MinT
+使用元素
+wx:
+pop12h:
+maxT:
+minT:
+UVI
+
 
 顯示縣市各觀測站過去1小時、24小時累積雨量數據       －－> 使用  
 過去24小時  

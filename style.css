@@ -26,11 +26,18 @@ h2
 }
 h3
 {
+    margin-top: 30px;
     text-align: center;
 }
 h4
 {
     margin-top: 30px;
+    text-align: center;
+}
+h5
+{
+    margin-top: 30px;
+    color: rgb(187, 179, 216);
     text-align: center;
 }
 label
@@ -71,7 +78,13 @@ div.wrapperweek
     margin-right: 20px;
     grid-template-columns: repeat(7,3fr);
     grid-column-gap: 50px;
-    height: 700px;
+    height: 550px;
+}
+div.wrapper4
+{
+    display: grid;
+    grid-template-columns: repeat(4,2fr);
+    grid-column-gap: 100px;
 }
 div.circle
 {
@@ -90,6 +103,14 @@ div.select
 div.topview
 {
     text-align: center;
+}
+div.rain
+{
+    margin-top: 50px;
+    margin-bottom: 50px;
+    margin-left: 50px;
+    margin: 50px;
+    height:300px;
 }
 img.country
 {
@@ -113,6 +134,12 @@ img.temp
     margin-left: 20px;
     width: 100px;
     height: 100px;
+}
+img.weektemp
+{
+    margin-left: 20px;
+    width: 80px;
+    height: 80px;
 }
 p
 {
