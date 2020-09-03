@@ -1,6 +1,6 @@
 # RD1_Assignment
 CWB-CD094466-F0F5-46D5-B4CE-B55F5026618B
-
+2020-09-03T12:00:00
 天氣背景圖為Pixabay https://pixabay.com/zh/photos/sky-stars-constellations-astronomy-828648/ 下載
 
 預計
@@ -76,6 +76,10 @@ pop12h:
 maxT:
 minT:
 UVI
+第一筆資料為12:00:00
+但其他資料為06:00:00   跟  18:00:00 區間
+
+
 
 
 顯示縣市各觀測站過去1小時、24小時累積雨量數據       －－> 使用  
