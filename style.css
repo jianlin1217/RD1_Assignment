@@ -112,6 +112,11 @@ div.rain
     margin: 50px;
     height:300px;
 }
+img.now
+{
+    width: 200px;
+    height: 200px;
+}
 img.country
 {
     border-style: groove;

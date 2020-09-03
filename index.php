@@ -127,12 +127,11 @@ while($obj_twoday->{'records'}->{"locations"}[0]->{"location"}[$i]!=NULL)
         $element=explode("。",$allelement);
         array_push($wx,$element[0]);
         array_push($pop,$element[1]);
-        array_push($t,(int)substr($element[2],12,2));
+        array_push($t,(int)substr($element[2],12,-3));
         array_push($ci,$element[3]);
         array_push($wind,$element[4]);
-        array_push($rh,(int)substr($element[5],12,2));
+        array_push($rh,(int)substr($element[5],12,-1));
     }
-
 
     // 資料放入資料庫
     for($w=0;$w<count($times);$w++)
@@ -143,7 +142,7 @@ while($obj_twoday->{'records'}->{"locations"}[0]->{"location"}[$i]!=NULL)
 
     $i++;
     echo "<br>".$cName."<br>";
-    var_dump($rh);
+    // var_dump($rh);
 }
 
 
@@ -412,6 +411,10 @@ while($obj_week->{'records'}->{"locations"}[0]->{"location"}[$i]!=NULL)
         <img class="country" id="countryImg" src="Img/" alt="">
         <div>
             <h3>現在天氣</h3>
+            <img class="now" src="Img/thunderday.png" alt="">
+            <div class="">
+
+            </div>
         </div>
     </div>
     <div id="twoday" style="display:none">
