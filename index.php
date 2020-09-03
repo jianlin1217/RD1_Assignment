@@ -91,11 +91,61 @@ static function get_country()
 //存放
 $obj_w36h = json_decode(getWeather::get_country());
 $obj_week = json_decode(getWeather::get_weekW());
-// $obj_week = json_decode(getWeather::get_weekW());
+$obj_twoday = json_decode(getWeather::get_twodayW());
 // $boj_rain = json_decode(getWeather::get_rain());
 // var_dump($obj_w36h);
 
 //放兩天訊息進入資料庫
+$i=0;
+while($obj_twoday->{'records'}->{"locations"}[0]->{"location"}[$i]!=NULL)
+{   
+    
+    $cName=$obj_twoday->{'records'}->{"locations"}[0]->{"location"}[$i]->{"locationName"}; //縣市名稱
+    $allelement;
+    //六種天氣因子存放
+    $times=array();
+    $pop=array();
+    $wx=array();
+    $t=array();
+    $ci=array();
+    $rh=array();
+    $wind=array();
+
+
+    $h=0;
+    while($obj_twoday->{'records'}->{"locations"}[0]->{"location"}[$i]->{'weatherElement'}[0]->{'time'}[$h]!=NULL)
+    {
+        date_default_timezone_set("Asia/Taipei");
+        $now=date("Y-m-d H:i:s");
+        // if(substr($now,))
+        // var_dump($now);
+        $allelement=$obj_twoday->{'records'}->{"locations"}[0]->{"location"}[$i]->{'weatherElement'}[0]->{'time'}[$h]->{'elementValue'}[0]->{"value"};
+        array_push($times,$obj_twoday->{'records'}->{"locations"}[0]->{"location"}[$i]->{'weatherElement'}[0]->{'time'}[$h]->{'startTime'});
+ 
+        $h++;
+        $element=array();
+        $element=explode("。",$allelement);
+        array_push($wx,$element[0]);
+        array_push($pop,$element[1]);
+        array_push($t,(int)substr($element[2],12,2));
+        array_push($ci,$element[3]);
+        array_push($wind,$element[4]);
+        array_push($rh,(int)substr($element[5],12,2));
+    }
+
+
+    // 資料放入資料庫
+    for($w=0;$w<count($times);$w++)
+    {
+        // $twodayDB=<<<
+    }
+
+
+    $i++;
+    echo "<br>".$cName."<br>";
+    var_dump($rh);
+}
+
 
 //放每週訊息進入資料庫
 $i=0;
