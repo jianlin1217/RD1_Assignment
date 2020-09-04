@@ -92,8 +92,8 @@ static function get_country()
 $obj_w36h = json_decode(getWeather::get_country());
 $obj_week = json_decode(getWeather::get_weekW());
 $obj_twoday = json_decode(getWeather::get_twodayW());
-// $boj_rain = json_decode(getWeather::get_rain());
-// var_dump($obj_w36h);
+$obj_rain = json_decode(getWeather::get_rain());
+//   var_dump($obj_rain->{'records'}->{"location"}[1]);
 
 //放兩天訊息進入資料庫
 $i=0;
@@ -102,6 +102,7 @@ while($obj_twoday->{'records'}->{"locations"}[0]->{"location"}[$i]!=NULL)
     
     $cName=$obj_twoday->{'records'}->{"locations"}[0]->{"location"}[$i]->{"locationName"}; //縣市名稱
     $allelement;
+    // echo "<br>".$cName."<br>";
     //六種天氣因子存放
     $times=array();
     $pop=array();
@@ -116,33 +117,38 @@ while($obj_twoday->{'records'}->{"locations"}[0]->{"location"}[$i]!=NULL)
     while($obj_twoday->{'records'}->{"locations"}[0]->{"location"}[$i]->{'weatherElement'}[0]->{'time'}[$h]!=NULL)
     {
         date_default_timezone_set("Asia/Taipei");
-        $now=date("Y-m-d H:i:s");
+        $now=date("Y-m-d");
+        
         // if(substr($now,))
         // var_dump($now);
         $allelement=$obj_twoday->{'records'}->{"locations"}[0]->{"location"}[$i]->{'weatherElement'}[0]->{'time'}[$h]->{'elementValue'}[0]->{"value"};
+        //存放時間
         array_push($times,$obj_twoday->{'records'}->{"locations"}[0]->{"location"}[$i]->{'weatherElement'}[0]->{'time'}[$h]->{'startTime'});
- 
-        $h++;
+
+       
         $element=array();
         $element=explode("。",$allelement);
         array_push($wx,$element[0]);
-        array_push($pop,$element[1]);
+        array_push($pop,(int)substr($element[1],13,-1));
         array_push($t,(int)substr($element[2],12,-3));
         array_push($ci,$element[3]);
         array_push($wind,$element[4]);
         array_push($rh,(int)substr($element[5],12,-1));
-    }
+        
+            //資料放入資料庫
+            $puttwodayDB=<<<end
+            insert into twoday
+            (countryName,times,wx,pop,tem,ci,wind,rh)
+            values
+            ("$cName","$times[$h]","$wx[$h]",$pop[$h],$t[$h],"$ci[$h]","$wind[$h]",$rh[$h]);
+            end; 
+            // echo $puttwodayDB;
+            mysqli_query($link,$puttwodayDB);
+        $h++;
 
-    // 資料放入資料庫
-    for($w=0;$w<count($times);$w++)
-    {
-        // $twodayDB=<<<
-    }
-
-
-    $i++;
-    echo "<br>".$cName."<br>";
-    // var_dump($rh);
+}
+    $i++;  
+    // var_dump();
 }
 
 
@@ -234,6 +240,48 @@ while($obj_week->{'records'}->{"locations"}[0]->{"location"}[$i]!=NULL)
 }
 
 //放觀測站、縣市、小時雨量、三小時雨量進入資料庫
+$i=0;
+while($obj_rain->{'records'}->{"location"}[$i]!=NULL)
+{
+    //觀測站名稱跟縣市名稱
+    $sName=$obj_rain->{'records'}->{"location"}[$i]->{"locationName"};
+    $cName=$obj_rain->{'records'}->{"location"}[$i]->{"parameter"}[0]->{"parameterValue"};
+    $h=0;
+    // 存入過去每小時/24小時的雨量
+    $rain1H;
+    $rain24H;
+    $time=$obj_rain->{'records'}->{"location"}[$i]->{"time"}->{'obsTime'};
+    while($obj_rain->{'records'}->{"location"}[$i]->{'weatherElement'}[$h]!=NULL)
+    {
+        // var_dump($obj_rain->{'records'}->{"location"}[$i]->{'weatherElement'}[0]);
+        if($obj_rain->{'records'}->{"location"}[$i]->{'weatherElement'}[$h]->{'elementName'}=="RAIN")
+        {
+            $rain1H=$obj_rain->{'records'}->{"location"}[$i]->{'weatherElement'}[$h]->{'elementValue'};
+            if($rain1H==-998)
+            $rain1H=-1;
+        }
+        else
+        {
+            $rain24H=$obj_rain->{'records'}->{"location"}[$i]->{'weatherElement'}[$h]->{'elementValue'};
+            if($rain24H==-998)
+            $rain24H=-1;
+        }
+        $h++;
+    }
+    //資料放入雨量資料庫
+    $putrainDB=<<<end
+    insert into raincount
+    (stationName,countryName,perHour,perDay,obsTime)
+    values
+    ("$sName","$cName",$rain1H,$rain24H,"$time");
+    end;
+    // echo $putrainDB;
+    mysqli_query($link,$putrainDB);
+    // echo $sName."<br>";
+    // echo "每小時   ".$rain1H."過去一天   ".$rain24H."<br>";
+    $i++;
+}
+
 
 // //放縣市進入資料庫
 // $i = 0;
@@ -412,8 +460,13 @@ while($obj_week->{'records'}->{"locations"}[0]->{"location"}[$i]!=NULL)
         <div>
             <h3>現在天氣</h3>
             <img class="now" src="Img/thunderday.png" alt="">
-            <div class="">
-
+            <div class="nowweather">
+                <p class="now">雷雨天</p>
+                <p class="now">降雨機率：30%</p>
+            </div>
+            <div class="nowweather">
+                <p class="now">舒適度：舒適</p>
+                <p class="now">溫度：26ºC</p>
             </div>
         </div>
     </div>
