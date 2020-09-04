@@ -54,6 +54,8 @@ CWB-CD094466-F0F5-46D5-B4CE-B55F5026618B
 資料庫相同日期的資料更新
 
 
+天氣狀態以及其值參考
+https://opendata.cwb.gov.tw/opendatadoc/MFC/D0047.pdf
 
 ### 題目
 

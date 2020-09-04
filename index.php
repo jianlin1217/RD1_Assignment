@@ -1,4 +1,5 @@
 <?php
+session_start();
 require_once("connectDB.php");
 //授權碼
 $Authorization = "CWB-CD094466-F0F5-46D5-B4CE-B55F5026618B";
@@ -225,7 +226,7 @@ while($obj_week->{'records'}->{"locations"}[0]->{"location"}[$i]!=NULL)
             // 資料放入資料庫
             $weatherWeek=<<<end
             insert into week
-            (countryName,times,Wx,Pop12h,MaxT,MinT,UVI)
+            (countryName,wtimes,wWx,wPop12h,wMaxT,wMinT,wUVI)
             values
             ("$cName","$times[$w]","$wx[$w]",$Pop12h[$w],$MaxT[$w],$MinT[$w],$UVI[$w]);
             end;
@@ -311,22 +312,30 @@ while($obj_rain->{'records'}->{"location"}[$i]!=NULL)
 //     $i++;
 // }
 
-// if(isset($_POST['submit']))
-//             {
-//                 echo "提交";
-//                 // if(isset($_POST['winput']))
-//                 // {
-//                 //     echo $_POST['winput'];
-//                 //     get_twodayW($_POST['country']);
-//                 //     get_weekW($_POST['country']);
-//                 // } 
-//                 // if(isset($_POST['rinput']))
-//                 // {
-//                 //     echo $_POST['rinput'];
-//                 //      get_rain();
-//                 // }
+if(isset($_POST['submit']))
+{
+    if($_POST['show']!="none")
+    {
+        echo "提交！！<br>縣市為".$_POST['country'].$_POST['show'];
+        $_SESSION['selectcountry']=$_POST['country'];
+        $_SESSION['selectshowmethod']=$_POST['show'];
+        header("location: result.php");
+    }
+    
+    
+    // if(isset($_POST['winput']))
+    // {
+    //     echo $_POST['winput'];
+    //     get_twodayW($_POST['country']);
+    //     get_weekW($_POST['country']);
+    // } 
+    // if(isset($_POST['rinput']))
+    // {
+    //     echo $_POST['rinput'];
+    //      get_rain();
+    // }
 
-//             }
+}
 
 ?>
 <!DOCTYPE html>
@@ -354,8 +363,11 @@ while($obj_rain->{'records'}->{"location"}[$i]!=NULL)
     <img class="bg" alt="">
     <div class="Slider Track topview">
         <h1>天氣觀察局</h1>
-        <form action="" method="post" target="send-iframe">
+        <form action="" method="post">
             <!--選擇縣市-->
+            <?php
+                //從資料庫讀取縣市 及 圖片等等
+            ?>
             <label for="country">縣市</label>
             <select name="country" id="country" style="background-color:royalblue; color:seashell">
                 <option id="country0" value="none">請選擇縣市</option>
