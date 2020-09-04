@@ -135,7 +135,22 @@ while($obj_twoday->{'records'}->{"locations"}[0]->{"location"}[$i]!=NULL)
         array_push($ci,$element[3]);
         array_push($wind,$element[4]);
         array_push($rh,(int)substr($element[5],12,-1));
-        
+            // //存不一樣的天氣因子
+            // for($i=0;$i<count($wx);$i++)
+            // {
+            //     $flag=1;
+            //     $samewx=<<<end
+            //     select wxName from weatherImage;
+            //     end;
+            //         $putwxDB=<<<end
+            //         insert into weatherImage
+            //         (wxName)
+            //         values
+            //         ("$wx[$i]")
+            //         end;
+            //         mysqli_query($link,$putwxDB);
+            // }
+            // var_dump($wx);
             //資料放入資料庫
             $puttwodayDB=<<<end
             insert into twoday
@@ -221,6 +236,20 @@ while($obj_week->{'records'}->{"locations"}[0]->{"location"}[$i]!=NULL)
         $h++;
         // echo "<br>";
     }
+    // //存不一樣的天氣因子
+    // for($i=0;$i<count($wx);$i++)
+    // {
+    //     $samewx=<<<end
+    //     select wxName from weatherImage;
+    //     end;
+    //     $putwxDB=<<<end
+    //     insert into weatherImage
+    //     (wxName)
+    //     values
+    //     ("$wx[$i]")
+    //     end;
+    //     mysqli_query($link,$putwxDB);
+    // }
     for($w=0;$w<count($times);$w++)
     {
             // 資料放入資料庫

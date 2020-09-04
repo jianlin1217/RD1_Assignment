@@ -11,6 +11,15 @@ if (isset($_POST['submit'])) {
     $_SESSION['selectshowmethod'] = $_POST['show'];
     header("location: result.php");
 }
+//取得縣市圖片
+$getcImg=<<<end
+select countryImg,countryImgDes from country where countryName="$selectCountry";
+end;
+// echo $getcImg;
+$rowC=mysqli_fetch_assoc(mysqli_query($link,$getcImg));
+// var_dump($rowC);
+// echo $rowC['countryImg'];
+
 //取得現在日期
 date_default_timezone_set("Asia/Taipei");
 $now = date("Y-m-d H:m:s");
@@ -101,18 +110,11 @@ $next2 = date("Y-m-d", strtotime('+3 days'));
 
     //看選擇方式抓資料
     if ($selectShow == "showweather") {
-        //從資料庫中取得資料
-        $gettwodaydata = <<<end
-        select times,wx,pop,tem,ci,wind,rh
-        from twoday  where countryName = "$selectCountry" and times between "$next" and "$next2";
-        end;
-        // echo $gettwodaydata;
-        $resultT = mysqli_query($link, $gettwodaydata);
     ?>
         <div class="weather topview " id="nowweather">
             <div>
                 <p class="cImg">特色圖片</p>
-                <img class="country" id="countryImg" src="Img/<?= $selectCountry ?>.jpeg" alt="">
+                <img class="country" id="countryImg" src="data:image/jpg;charset=utf8;base64,<?php echo base64_encode($rowC['countryImg'])?>" alt="">
             </div>
             <div>
                 <p class="cImg">現在天氣</p>
@@ -124,8 +126,14 @@ $next2 = date("Y-m-d", strtotime('+3 days'));
                     end;
                     // echo $getnow;
                     $rownow=mysqli_fetch_assoc(mysqli_query($link,$getnow));
+                    $nowwx=$rownow['wx'];
+                    //取得圖片
+                    $getImg=<<<end
+                    select wxImg from weatherImage where wxName = "$nowwx"
+                    end;
+                    $rowImg=mysqli_fetch_assoc(mysqli_query($link,$getImg));
                 ?>
-                    <img class="now" src="Img/thunderday.png" alt="">
+                    <img class="now" src="data:image/jpg;charset=utf8;base64,<?php echo base64_encode($rowImg['wxImg']);?>" alt="">
                     <div class="nowweather">
                         <p class="now"><?=$rownow['wx']?></p>
                         <p class="now">降雨機率：<?=$rownow['pop']?>%</p>
@@ -142,16 +150,29 @@ $next2 = date("Y-m-d", strtotime('+3 days'));
             <h4>未來兩天天氣</h4>
             <div class="wrappertwoday">
                 <?php
+                //從資料庫中取得資料
+                $gettwodaydata = <<<end
+                select times,wx,pop,tem,ci,wind,rh
+                from twoday  where countryName = "$selectCountry" and times between "$next" and "$next2";
+                end;
+                // echo $gettwodaydata;
+                $resultT = mysqli_query($link, $gettwodaydata);
                 while ($row = mysqli_fetch_assoc($resultT)) {
-                    // echo $row['times']."<br>";
-                    // echo date("H",strtotime($row['times']))."<br>";
+                    
                     if (date("H", strtotime($row['times'])) != "6" && date("H", strtotime($row['times'])) != "12" && date("H", strtotime($row['times'])) != "18")
                         continue;
+
+                    //取得圖片
+                    $nowwx=$row["wx"];
+                    $getImg=<<<end
+                    select wxImg from weatherImage where wxName = "$nowwx"
+                    end;
+                    $rowImg=mysqli_fetch_assoc(mysqli_query($link,$getImg));
                 ?>
                     <div class="sky circle">
                         <p><?= $row['times'] ?></p>
                         <p>天氣 <?= $row['wx'] ?></p>
-                        <img class="wx" src="Img/sunday.png" alt="">
+                        <img class="wx" src="data:image/jpg;charset=utf8;base64,<?php echo base64_encode($rowImg['wxImg']);?>" alt="">
                         <p>舒適度 <?= $row['ci'] ?></p>
                         <div class="weather">
                             <img class="temp" src="Img/Htemp.png" alt="">
@@ -201,12 +222,17 @@ $next2 = date("Y-m-d", strtotime('+3 days'));
                 // echo $getweek;
                 $resultW = mysqli_query($link, $getweek);
                 while ($row = mysqli_fetch_assoc($resultW)) {
-
+                    //取得圖片
+                    $nowwx=$row["wWx"];
+                    $getImg=<<<end
+                    select wxImg from weatherImage where wxName = "$nowwx"
+                    end;
+                    $rowImg=mysqli_fetch_assoc(mysqli_query($link,$getImg));
                 ?>
                     <div class="sky circle">
                         <h5><?= $row['wtimes'] ?></h5>
                         <div class="weather">
-                            <img class="temp" src="Img/cloudsday.png" alt="">
+                            <img class="temp" src="data:image/jpg;charset=utf8;base64,<?php echo base64_encode($rowImg['wxImg']);?>" alt="">
                             <p><?= $row['wWx'] ?></p>
                         </div>
                         <div class="weather">
