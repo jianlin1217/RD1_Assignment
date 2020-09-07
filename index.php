@@ -345,7 +345,7 @@ if(isset($_POST['submit']))
 {
     if($_POST['show']!="none")
     {
-        echo "提交！！<br>縣市為".$_POST['country'].$_POST['show'];
+        // echo "提交！！<br>縣市為".$_POST['country'].$_POST['show'];
         $_SESSION['selectcountry']=$_POST['country'];
         $_SESSION['selectshowmethod']=$_POST['show'];
         header("location: result.php");

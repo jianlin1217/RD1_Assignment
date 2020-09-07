@@ -282,15 +282,13 @@ $next2 = date("Y-m-d", strtotime('+3 days'));
             $i = 0;
             $flag = 1;
             while ($row = mysqli_fetch_assoc($resultR)) {
-                if (($station[$i] == $row['stationName']) && $flag) {
-                    $flag = 0;
-
+                // echo $station[$i] . $row['stationName'];
+                if (($station[$i] == $row['stationName'])) {
             ?>
                     <h3 id="<?= $station[$i] ?>"><?= $station[$i] ?> 觀測站</h3>
                 <?php
                     $i++;
                 } else {
-                    $flag = 1;
                 }
                 ?>
                 <h2>觀察時間 <?= $row['obsTime'] ?></h2>
