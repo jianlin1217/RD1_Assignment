@@ -87,8 +87,6 @@ static function get_country()
     }
 }
 
-
-
 //存放
 $obj_w36h = json_decode(getWeather::get_country());
 $obj_week = json_decode(getWeather::get_weekW());
@@ -113,7 +111,6 @@ while($obj_twoday->{'records'}->{"locations"}[0]->{"location"}[$i]!=NULL)
     $rh=array();
     $wind=array();
 
-
     $h=0;
     while($obj_twoday->{'records'}->{"locations"}[0]->{"location"}[$i]->{'weatherElement'}[0]->{'time'}[$h]!=NULL)
     {
@@ -126,7 +123,7 @@ while($obj_twoday->{'records'}->{"locations"}[0]->{"location"}[$i]!=NULL)
         //存放時間
         array_push($times,$obj_twoday->{'records'}->{"locations"}[0]->{"location"}[$i]->{'weatherElement'}[0]->{'time'}[$h]->{'startTime'});
 
-       
+        //切割因子
         $element=array();
         $element=explode("。",$allelement);
         array_push($wx,$element[0]);
@@ -135,31 +132,42 @@ while($obj_twoday->{'records'}->{"locations"}[0]->{"location"}[$i]!=NULL)
         array_push($ci,$element[3]);
         array_push($wind,$element[4]);
         array_push($rh,(int)substr($element[5],12,-1));
-            // //存不一樣的天氣因子
-            // for($i=0;$i<count($wx);$i++)
-            // {
-            //     $flag=1;
-            //     $samewx=<<<end
-            //     select wxName from weatherImage;
-            //     end;
-            //         $putwxDB=<<<end
-            //         insert into weatherImage
-            //         (wxName)
-            //         values
-            //         ("$wx[$i]")
-            //         end;
-            //         mysqli_query($link,$putwxDB);
-            // }
-            // var_dump($wx);
-            //資料放入資料庫
-            $puttwodayDB=<<<end
-            insert into twoday
-            (countryName,times,wx,pop,tem,ci,wind,rh)
-            values
-            ("$cName","$times[$h]","$wx[$h]",$pop[$h],$t[$h],"$ci[$h]","$wind[$h]",$rh[$h]);
-            end; 
-            // echo $puttwodayDB;
-            mysqli_query($link,$puttwodayDB);
+            
+            //找時間是否有一樣的
+            $sametime=<<<end
+            select twodayId from twoday where times="$times[$h]" and countryName="$cName";
+            end;
+            // echo $sametime."<br>";
+            $sameresult=mysqli_query($link,$sametime);
+            $row=mysqli_fetch_assoc($sameresult);
+            $wid=$row['twodayId'];
+            if($wid==NULL)
+            {
+
+                //資料放入資料庫
+                $puttwodayDB=<<<end
+                insert into twoday
+                (countryName,times,wx,pop,tem,ci,wind,rh)
+                values
+                ("$cName","$times[$h]","$wx[$h]",$pop[$h],$t[$h],"$ci[$h]","$wind[$h]",$rh[$h]);
+                end; 
+                // echo $puttwodayDB;
+                mysqli_query($link,$puttwodayDB);
+            }
+            else
+            {
+                //更新資料
+                $puttwodayDB=<<<end
+                update twoday set wx="$wx[$h]",pop=$pop[$h],tem=$t[$h],ci="$ci[$h]",wind="$wind[$h]",rh=$rh[$h]
+                where twodayId=$wid;
+                end; 
+                // echo $puttwodayDB." 更新<br>";
+                mysqli_query($link,$puttwodayDB);
+
+            }
+
+
+            
         $h++;
 
 }
@@ -236,32 +244,45 @@ while($obj_week->{'records'}->{"locations"}[0]->{"location"}[$i]!=NULL)
         $h++;
         // echo "<br>";
     }
-    // //存不一樣的天氣因子
-    // for($i=0;$i<count($wx);$i++)
-    // {
-    //     $samewx=<<<end
-    //     select wxName from weatherImage;
-    //     end;
-    //     $putwxDB=<<<end
-    //     insert into weatherImage
-    //     (wxName)
-    //     values
-    //     ("$wx[$i]")
-    //     end;
-    //     mysqli_query($link,$putwxDB);
-    // }
+
     for($w=0;$w<count($times);$w++)
     {
-            // 資料放入資料庫
+         //找時間是否有一樣的
+         $times[$w]=date("Y-m-d",strtotime($times[$w]));
+         $sametime=<<<end
+         select weekId from week where wtimes="$times[$w]" and countryName="$cName";
+         end;
+        //  echo $sametime."<br>";
+         $sameresult=mysqli_query($link,$sametime);
+         $row=mysqli_fetch_assoc($sameresult);
+         $wid=$row['weekId'];
+        if($wid==NULL)
+        {
+    
+           // 資料放入資料庫
+           $weatherWeek=<<<end
+           insert into week
+           (countryName,wtimes,wWx,wPop12h,wMaxT,wMinT,wUVI)
+           values
+           ("$cName","$times[$w]","$wx[$w]",$Pop12h[$w],$MaxT[$w],$MinT[$w],$UVI[$w]);
+           end;
+
+           // echo $weatherWeek."<br>";
+           mysqli_query($link,$weatherWeek);
+        }
+        else
+        {
+            //更新資料
             $weatherWeek=<<<end
-            insert into week
-            (countryName,wtimes,wWx,wPop12h,wMaxT,wMinT,wUVI)
-            values
-            ("$cName","$times[$w]","$wx[$w]",$Pop12h[$w],$MaxT[$w],$MinT[$w],$UVI[$w]);
+            update week set wWx="$wx[$w]",wPop12h=$Pop12h[$w],wMaxT=$MaxT[$w],wMinT=$MinT[$w],wUVI=$UVI[$w]
+            where weekId=$wid;
             end;
 
             // echo $weatherWeek."<br>";
             mysqli_query($link,$weatherWeek);
+    
+        }
+            
     }
     
     $i++;
@@ -298,17 +319,35 @@ while($obj_rain->{'records'}->{"location"}[$i]!=NULL)
         }
         $h++;
     }
-    //資料放入雨量資料庫
-    $putrainDB=<<<end
-    insert into raincount
-    (stationName,countryName,perHour,perDay,obsTime)
-    values
-    ("$sName","$cName",$rain1H,$rain24H,"$time");
-    end;
-    // echo $putrainDB;
-    mysqli_query($link,$putrainDB);
-    // echo $sName."<br>";
-    // echo "每小時   ".$rain1H."過去一天   ".$rain24H."<br>";
+     //找時間是否有一樣的
+     $sametime=<<<end
+     select rcId from raincount where obsTime="$time" and stationName="$sName";
+     end;
+    //  echo $sametime."<br>";
+     $sameresult=mysqli_query($link,$sametime);
+     $row=mysqli_fetch_assoc($sameresult);
+     $wid=$row['rcId'];
+    if($wid==NULL)
+    {
+        //資料放入雨量資料庫
+        $putrainDB=<<<end
+        insert into raincount
+        (stationName,countryName,perHour,perDay,obsTime)
+        values
+        ("$sName","$cName",$rain1H,$rain24H,"$time");
+        end;
+        mysqli_query($link,$putrainDB);
+    }
+    else
+    {
+        //更新資料
+        $putrainDB=<<<end
+        update raincount set perHour=$rain1H,perDay=$rain24H where rcId=$wid;
+        end;
+        // echo $putrainDB;
+        mysqli_query($link,$putrainDB);
+
+    }
     $i++;
 }
 
@@ -420,7 +459,7 @@ if(isset($_POST['submit']))
             <input type="checkbox" value="showweather" name="winput" id="winput">
             <label for="rinput">雨量</label>
             <input type="checkbox" value="showrain" name="rinput" id="rinput"> -->
-            <button id="submit" name="submit" type="submit">資料發送ˋ3ˊ</button>
+            <button id="submit" name="submit" type="submit">資料發送</button>
         </form>
 
 </body>

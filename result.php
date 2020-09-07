@@ -82,7 +82,7 @@ $next2 = date("Y-m-d", strtotime('+3 days'));
                 <option value="showweather">天氣</option>
                 <option value="showrain">雨量</option>
             </select>
-            <button id="submit" name="submit" type="submit">資料發送ˋ3ˊ</button>
+            <button id="submit" name="submit" type="submit">資料發送</button>
         </form>
         <h2 id="countryname"><?= $selectCountry ?></h2>
         <div class="label">
