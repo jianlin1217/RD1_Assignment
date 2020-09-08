@@ -52,6 +52,8 @@ CWB-CD094466-F0F5-46D5-B4CE-B55F5026618B
 
 # 0907 重複日期會更新資料
 
+# 圖片
+![image](https://github.com/jianlin1217/RD1_Assignment/blob/master/Img/localhost_8888_RD1_Assignment_RD1_Assignment_result.php.png)
 
 # 待改進
 天氣狀況圖片自動更新
