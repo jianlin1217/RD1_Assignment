@@ -114,6 +114,7 @@ div.now
     height: 480px;
     width: 800px;
     margin: 50px;
+    margin-top: 65px;
 }
 div.select
 {
@@ -153,6 +154,7 @@ img.now
 {
     width: 200px;
     height: 200px;
+    /* margin-bottom: 20px; */
 }
 img.country
 {
@@ -165,6 +167,7 @@ img.country
     height: 480px;
     width: 800px;
     margin: 50px;
+    margin-bottom: 70px;
 }
 img.wx
 {

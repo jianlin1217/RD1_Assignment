@@ -51,6 +51,10 @@ $next2 = date("Y-m-d", strtotime('+3 days'));
         if (window.history.replaceState) {
             window.history.replaceState(null, null, window.location.href);
         }
+        //５分鐘去重抓
+        // setInterval(() => {
+        //     window.location="index.php";
+        // }, 300000);
     </script>
     <a class="top" href="#title">top</a>
     <img class="bg" alt="">
@@ -101,6 +105,7 @@ $next2 = date("Y-m-d", strtotime('+3 days'));
                     <a href="#<?= $row['stationName'] ?>"><?= $row['stationName'] ?></a>
             <?php
                 }
+                // var_dump($station);
             }
             ?>
 
@@ -113,7 +118,7 @@ $next2 = date("Y-m-d", strtotime('+3 days'));
     ?>
         <div class="weather topview " id="nowweather">
             <div>
-                <p class="cImg">特色圖片</p>
+                <p class="cImg"><?=$rowC['countryImgDes']?></p>
                 <img class="country" id="countryImg" src="data:image/jpg;charset=utf8;base64,<?php echo base64_encode($rowC['countryImg'])?>" alt="">
             </div>
             <div>
@@ -270,6 +275,7 @@ $next2 = date("Y-m-d", strtotime('+3 days'));
     ?>
         <?php
         //從雨量資料庫拿資料
+        // var_dump($station);
         $getrain = <<<end
         select  obsTime,perHour,perDay,stationName from raincount where countryName="$selectCountry" and obsTime>"$nowday";
         end;
@@ -283,13 +289,10 @@ $next2 = date("Y-m-d", strtotime('+3 days'));
             $flag = 1;
             while ($row = mysqli_fetch_assoc($resultR)) {
                 // echo $station[$i] . $row['stationName'];
-                if (($station[$i] == $row['stationName'])) {
             ?>
-                    <h3 id="<?= $station[$i] ?>"><?= $station[$i] ?> 觀測站</h3>
+                    <h3 id="<?= $row['stationName'] ?>"><?= $row['stationName'] ?> 觀測站</h3>
                 <?php
-                    $i++;
-                } else {
-                }
+
                 ?>
                 <h2>觀察時間 <?= $row['obsTime'] ?></h2>
                 <div class=" rain">
